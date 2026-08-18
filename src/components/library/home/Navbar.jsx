@@ -1,0 +1,20 @@
+import React from 'react';
+
+const Navbar = () => {
+  return (
+    <nav className="navbar">
+      <div className="nav-logo">
+        <span className="logo-icon">◉</span>
+        <span className="logo-text">BeatDrop</span>
+      </div>
+      <div className="nav-links">
+        <a href="#about" className="nav-link">About</a>
+        <a href="#features" className="nav-link">Features</a>
+        <a href="#tech" className="nav-link">Tech</a>
+        <button className="btn-secondary btn-sm">Launch Web Player</button>
+      </div>
+    </nav>
+  );
+};
+
+export default Navbar;
