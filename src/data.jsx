@@ -533,7 +533,7 @@ export const LISTENING_STATS = {
 
 export const MUSIC_DNA = [
   {
-    genre: "Electronic",
+    genre: "jazz",
     percentage: 38,
   },
 
@@ -548,7 +548,7 @@ export const MUSIC_DNA = [
   },
 
   {
-    genre: "R&B",
+    genre: "Rocking",
     percentage: 11,
   },
 
