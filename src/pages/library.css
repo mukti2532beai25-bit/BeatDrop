@@ -1,0 +1,520 @@
+.library-page {
+    padding: 30px 40px 80px;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.library-header {
+    display: flex;
+    justify-content:space-around;
+    align-items:flex-end;
+    padding: 30px 0 40px;
+    background: linear-gradient(#9acd32,white);
+}
+
+.library-label,
+.section-label {
+    margin: 0 0 8px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: #777;
+}
+
+.library-header h1 {
+    margin: 0;
+    font-size: 40px;
+    font-weight: 700;
+    color: #111;
+}
+
+.library-header h1 span {
+    color: #9acd32;
+}
+
+.library-description {
+    margin: 8px 7px 0;
+    font-size: 14px;
+    color: #777;
+}
+
+.library-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.library-actions button {
+    width: 42px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #e5e5e5;
+    border-radius: 50%;
+    background: white;
+    color: #222;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.library-actions button:hover {
+    background: #9acd32;
+    border-color: #9acd32;
+    transform: translateY(-2px);
+}
+
+.library-section {
+    margin-top: 45px;
+}
+
+.section-heading,
+.collection-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 20px;
+}
+
+.section-heading h2,
+.collection-header h2 {
+    margin: 0;
+    font-size: 24px;
+    color: #111;
+}
+
+.see-all-button {
+    border: none;
+    background: transparent;
+    color: #777;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.see-all-button:hover {
+    color: #9acd32;
+}
+
+.quick-access-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+}
+
+.quick-access-card {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    min-height: 90px;
+    padding: 16px;
+    border: 1px solid #eeeeee;
+    border-radius: 14px;
+    background: #fff;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.quick-access-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
+}
+
+.quick-access-icon {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    background: #f1f8df;
+    color: #8ab52d;
+    font-size: 18px;
+}
+
+.quick-access-card h3 {
+    margin: 0 0 4px;
+    font-size: 14px;
+}
+
+.quick-access-card p {
+    margin: 0;
+    font-size: 12px;
+    color: #888;
+}
+
+.quick-arrow {
+    margin-left: auto;
+    color: #aaa;
+    font-size: 12px;
+}
+
+.made-for-you-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+}
+
+.mix-card {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    min-height: 120px;
+    padding: 18px;
+    border-radius: 16px;
+    background: #f7f8f3;
+    transition: 0.2s;
+}
+
+.mix-card:hover {
+    transform: translateY(-3px);
+}
+
+.mix-icon {
+    width: 55px;
+    height: 55px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 14px;
+    background: white;
+    font-size: 25px;
+}
+
+.mix-content {
+    min-width: 0;
+}
+
+.mix-content h3 {
+    margin: 0 0 5px;
+    font-size: 15px;
+}
+
+.mix-content p {
+    margin: 0 0 6px;
+    font-size: 12px;
+    color: #777;
+}
+
+.mix-content span {
+    font-size: 10px;
+    color: #999;
+}
+
+.mix-play-button {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: auto;
+    border: none;
+    border-radius: 50%;
+    background: #9acd32;
+    color: white;
+    cursor: pointer;
+}
+
+.recently-played-list {
+    border-top: 1px solid #eee;
+}
+
+.recent-song {
+    display: grid;
+    grid-template-columns: 30px 50px 1.5fr 1fr 70px 35px;
+    align-items: center;
+    gap: 15px;
+    padding: 12px 5px;
+    border-bottom: 1px solid #eee;
+    transition: 0.2s;
+}
+
+.recent-song:hover {
+    background: #fafafa;
+}
+
+.song-number {
+    color: #aaa;
+    font-size: 12px;
+    text-align: center;
+}
+
+.song-cover {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 7px;
+}
+
+.song-info h3 {
+    margin: 0 0 4px;
+    font-size: 14px;
+}
+
+.song-info p {
+    margin: 0;
+    font-size: 12px;
+    color: #888;
+}
+
+.song-album,
+.song-duration {
+    font-size: 12px;
+    color: #888;
+}
+
+.song-more-button {
+    border: none;
+    background: transparent;
+    color: #999;
+    cursor: pointer;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+}
+
+.stat-card {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 20px;
+    border: 1px solid #eee;
+    border-radius: 14px;
+    background: white;
+}
+
+.stat-icon {
+    width: 45px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    background: #f1f8df;
+    color: #8ab52d;
+}
+
+.stat-card span {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 11px;
+    color: #888;
+}
+
+.stat-card strong {
+    font-size: 18px;
+    color: #111;
+}
+
+.music-dna-card {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: 40px;
+    padding: 30px;
+    border-radius: 18px;
+    background: #f7f8f3;
+}
+.dna-description {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+}
+
+.dna-icon {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    border-radius: 14px;
+    background: white;
+    color: #8ab52d;
+    font-size: 20px;
+}
+
+.dna-description h3 {
+    margin: 0 0 7px;
+    font-size: 16px;
+}
+
+.dna-description p {
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.5;
+    color: #777;
+}
+
+.dna-row {
+    margin-bottom: 15px;
+}
+
+.dna-row:last-child {
+    margin-bottom: 0;
+}
+
+.dna-title {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 7px;
+    font-size: 12px;
+}
+
+.dna-title span {
+    color: #555;
+}
+
+.dna-title strong {
+    color: #222;
+}
+
+.dna-bar {
+    height: 7px;
+    overflow: hidden;
+    border-radius: 10px;
+    background: #e4e7dc;
+}
+
+.dna-progress {
+    height: 100%;
+    border-radius: 10px;
+    background: #9acd32;
+}
+
+.sort-select {
+    padding: 9px 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background: white;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.library-tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 25px;
+    overflow-x: auto;
+}
+
+.library-tab {
+    padding: 8px 17px;
+    border: 1px solid #e5e5e5;
+    border-radius: 20px;
+    background: white;
+    color: #777;
+    font-size: 12px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.library-tab:hover {
+    border-color: #9acd32;
+    color: #8ab52d;
+}
+
+.library-tab.active {
+    border-color: #9acd32;
+    background: #9acd32;
+    color: white;
+}
+
+.library-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+.library-card {
+    cursor: pointer;
+}
+
+.library-card-image {
+    position: relative;
+    aspect-ratio: 1;
+    overflow: hidden;
+    border-radius: 12px;
+    background: #eee;
+}
+
+.library-card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: 0.3s;
+}
+
+.library-card:hover img {
+    transform: scale(1.05);
+}
+
+.card-play-button {
+    position: absolute;
+    right: 12px;
+    bottom: 12px;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    border-radius: 50%;
+    background: #9acd32;
+    color: white;
+    cursor: pointer;
+    opacity: 0;
+    transform: translateY(5px);
+    transition: 0.2s;
+}
+
+.library-card:hover .card-play-button {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.library-card-info {
+    padding: 10px 2px;
+}
+
+.library-card-info span {
+    font-size: 10px;
+    color: #999;
+    text-transform: uppercase;
+}
+
+.library-card-info h3 {
+    margin: 4px 0;
+    font-size: 14px;
+    color: #111;
+}
+
+.library-card-info p {
+    margin: 0;
+    font-size: 12px;
+    color: #888;
+}
+
+.empty-library {
+    padding: 60px 20px;
+    text-align: center;
+    border: 1px dashed #ddd;
+    border-radius: 15px;
+}
+
+.empty-library > i {
+    font-size: 30px;
+    color: #aaa;
+}
+
+.empty-library h3 {
+    margin: 15px 0 5px;
+}
+
+.empty-library p {
+    margin: 0;
+    color: #888;
+    font-size: 13px;
+}
