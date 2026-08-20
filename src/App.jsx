@@ -1,12 +1,18 @@
-import "./App.css";
-import Library from "./pages/Library";
+import React from 'react';
+import SideBar from "./components/home/SideBar.jsx"; 
+import MainContent from './components/home/MainContent.jsx'; 
+import Player from './components/home/Player.jsx';
+import './App.css';
 
-function App() {
-    return (
-        <div className="app">
-            <Library />
-        </div>
-    );
+export default function App() {
+  return (
+    <div id='header'>
+      <div className='app-container'>
+        <SideBar />
+        <MainContent />
+      </div>
+      <Player />
+    </div>
+  );
 }
 
-export default App;
