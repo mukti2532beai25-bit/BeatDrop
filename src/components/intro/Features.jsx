@@ -6,7 +6,6 @@ const Features = () => {
       <h2 className="section-serif-title text-center">Browse all <span>features</span></h2>
 
       <div className="features-container">
-        {/* Feature 1: Large Box */}
         <div className="feature-box box-large dark-bg">
           <div className="feature-text-content">
             <h3>Lossless Hi-Fi Audio</h3>
@@ -15,14 +14,12 @@ const Features = () => {
         </div>
 
         <div className="features-row-small">
-          {/* Feature 2: Small Box */}
           <div className="feature-box box-small lime-bg">
             <div className="box-icon">✦</div>
             <h3>Algorithmic Discovery</h3>
             <p>Our neural networks analyze your listening habits to predict your next favorite obsession.</p>
           </div>
 
-          {/* Feature 3: Small Box */}
           <div className="feature-box box-small light-bg border-bg">
             <div className="box-icon">☁️</div>
             <h3>Offline Vault</h3>
@@ -30,7 +27,6 @@ const Features = () => {
           </div>
         </div>
 
-        {/* Feature 4: Wide Box */}
         <div className="feature-box box-wide dark-bg">
           <div className="wide-content-left">
             <h3>Cross-Platform Sync</h3>
