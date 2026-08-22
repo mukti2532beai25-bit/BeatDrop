@@ -3,11 +3,11 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Layout from "./layout";
 
 import BeatDropLanding from "./pages/intro";
-import BeatDropSubscriptio from "./pages/loginpage";
+import LoginForm from "./pages/loginpage";
 import MainContent from "./components/home/MainContent";
 import Library from "./pages/library";
-import Search from "./pages/search-page";
-import PremiumPage from "./pages/premiumpage";
+import SearchPage from "./pages/search-page";
+import BeatDropSubscription from "./pages/premiumpage";
 
 function App() {
     return (
@@ -20,7 +20,7 @@ function App() {
 
                 <Route
                     path="/login"
-                    element={<BeatDropSubscriptio/>}
+                    element={<LoginForm/>}
                 />
 
                 <Route
@@ -36,7 +36,7 @@ function App() {
                     path="/search"
                     element={
                         <Layout>
-                            <Search />
+                            <SearchPage />
                         </Layout>
                     }
                 />
@@ -54,7 +54,7 @@ function App() {
                     path="/premium"
                     element={
                         <Layout>
-                            <PremiumPage />
+                            <BeatDropSubscription />
                         </Layout>
                     }
                 />
