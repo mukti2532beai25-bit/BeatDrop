@@ -14,39 +14,50 @@ export default function MainContent() {
 }
 
 function Nav() {
-  return (
-    <header className="top-header">
-      <div className="nav-arrows">
-        <button className="arrow-btn">
-          <ChevronLeft size={20} />
-        </button>
-        <button className="arrow-btn">
-          <ChevronRight size={20} />
-        </button>
-      </div>
+    const navigate = useNavigate();
 
-      <div className="search-container">
-        <Search size={20} className="search-icon" />
-        <input
-          type="text"
-          placeholder="Artists, songs, albums, podcasts"
-          className="search-input"
-        />
-      </div>
+    return (
+        <header className="top-header">
+            <div className="nav-arrows">
+                <button className="arrow-btn">
+                    <ChevronLeft size={20} />
+                </button>
 
-      <div className="profile-actions">
-        <button className="explore-btn">Explore Premium</button>
-        <button className="icon-btn">
-          <Bell size={20} />
-        </button>
-        <div className="profile-icon">
-          <span className="profile-initials">MK</span>
-        </div>
-      </div>
-    </header>
-  );
+                <button className="arrow-btn">
+                    <ChevronRight size={20} />
+                </button>
+            </div>
+
+            <div
+                className="search-container"
+                onClick={() => navigate("/search")}
+            >
+                <Search size={20} className="search-icon" />
+
+                <input
+                    type="text"
+                    placeholder="Artists, songs, albums, podcasts"
+                    className="search-input"
+                    readOnly
+                />
+            </div>
+
+            <div className="profile-actions">
+                <button className="explore-btn">
+                    Explore Premium
+                </button>
+
+                <button className="icon-btn">
+                    <Bell size={20} />
+                </button>
+
+                <div className="profile-icon">
+                    <span className="profile-initials">MK</span>
+                </div>
+            </div>
+        </header>
+    );
 }
-
 function Core() {
   return (
     <>

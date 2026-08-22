@@ -1,11 +1,12 @@
 import React from 'react';
+import { NavLink, Link } from 'react-router-dom';
 import { Home, Search, Library, Plus, Heart } from 'lucide-react';
 import './SideBar.css';
 
 export default function SideBar() {
   return (
     <aside className="sidebar">
-      
+
       <div className="sidebar-logo">
         <div className="logo-icon">
           <div className="logo-dot"></div>
@@ -13,25 +14,38 @@ export default function SideBar() {
         <h2>BeatDrop</h2>
       </div>
 
-      <nav className="nav-menu">
-        <button className="nav-link active">
-          <Home size={20} /> 
-          <span>Home</span>
-        </button>
-        
-        <button className="nav-link">
-          <Search size={20} /> 
-          <span>Search</span>
-        </button>
-        
-        <button className="nav-link">
-          <Library size={20} /> 
-          <span>Your Library</span>
-        </button>
-      </nav>
+      <NavLink
+        to="/home"
+        className={({ isActive }) =>
+          `nav-link ${isActive ? "active" : ""}`
+        }
+      >
+        <Home size={20} />
+        <span>Home</span>
+      </NavLink>
+
+      <NavLink
+        to="/search"
+        className={({ isActive }) =>
+          `nav-link ${isActive ? "active" : ""}`
+        }
+      >
+        <Search size={20} />
+        <span>Search</span>
+      </NavLink>
+
+      <NavLink
+        to="/library"
+        className={({ isActive }) =>
+          `nav-link ${isActive ? "active" : ""}`
+        }
+      >
+        <Library size={20} />
+        <span>Your Library</span>
+      </NavLink>
 
       <div className="sidebar-scroll-area">
-        
+
         <div className="library-section">
           <div className="library-header">
             <p>YOUR LIBRARY</p>
@@ -60,7 +74,9 @@ export default function SideBar() {
         <div className="premium-card">
           <h4>Try BeatDrop Premium</h4>
           <p>Ad-free, offline, hi-fi audio — one month free.</p>
-          <button className="premium-btn">Get started</button>
+          <Link to="/premium" className="premium-btn">
+            Get started
+          </Link>
         </div>
 
       </div>

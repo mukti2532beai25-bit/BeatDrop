@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './loginpage.css';
+import { Link } from "react-router-dom";
 
 const LoginForm = () => {
   const [email, setEmail] = useState('');
@@ -9,8 +10,8 @@ const LoginForm = () => {
 
   const handleLogin = (e) => {
     e.preventDefault();
-     const correctEmail = "abc@gmail.com";
-     const correctPassword = "12345";
+    const correctEmail = "abc@gmail.com";
+    const correctPassword = "12345";
 
     if (email === correctEmail && password === correctPassword) {
       setIsLoggedIn(true);
@@ -23,45 +24,47 @@ const LoginForm = () => {
 
   return (
     <div className="login-card">
-        <h2>Log in</h2>
-        <form onSubmit={handleLogin}>
-          <div className="input-container">
-            <label>Email</label>
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="Email or username"
-              required
-            />
-          </div>
-          <div className="input-container">
-            <label>Password</label>
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="Password"
-              required
-            />
-          </div>
-          {error && <p className="error-text">{error}</p>}
-          <button type="submit" className="login-btn">Continue</button>
-        </form>
-
-        <div className="divider"><span>Or log in with</span></div>
-
-        <div className="other-options">
-          <button className="social-btn" type="button">Continue with phone number</button>
-          <button className="social-btn" type="button">Continue with Google</button>
-          <button className="social-btn" type="button">Continue with Facebook</button>
-          
+      <h2>Log in</h2>
+      <form onSubmit={handleLogin}>
+        <div className="input-container">
+          <label>Email</label>
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Email or username"
+            required
+          />
         </div>
+        <div className="input-container">
+          <label>Password</label>
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="Password"
+            required
+          />
+        </div>
+        {error && <p className="error-text">{error}</p>}
+        <Link to="/home">
+          Login
+        </Link>
+      </form>
 
-        <p className="signup-option">
-          Don't have an account? <a href="#">Sign up</a>
-        </p>
+      <div className="divider"><span>Or log in with</span></div>
+
+      <div className="other-options">
+        <button className="social-btn" type="button">Continue with phone number</button>
+        <button className="social-btn" type="button">Continue with Google</button>
+        <button className="social-btn" type="button">Continue with Facebook</button>
+
       </div>
+
+      <p className="signup-option">
+        Don't have an account? <a href="#">Sign up</a>
+      </p>
+    </div>
   );
 };
 
