@@ -1,0 +1,9 @@
+.app-container {
+  display: flex;         
+  flex-direction: row;   
+  height: 100vh;
+  width: 100vw;          
+  padding: 12px 12px 110px 12px;
+  gap: 12px; 
+  box-sizing: border-box;          
+}
