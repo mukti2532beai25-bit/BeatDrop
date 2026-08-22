@@ -1,5 +1,9 @@
 {
+<<<<<<< HEAD
   "name": "beatdrop",
+=======
+  "name": "beatsearch",
+>>>>>>> origin/search-page
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -10,7 +14,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
+<<<<<<< HEAD
     "@fortawesome/fontawesome-free": "^7.3.1",
+=======
+>>>>>>> origin/search-page
     "react": "^19.2.8",
     "react-dom": "^19.2.8"
   },
