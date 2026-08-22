@@ -1,6 +1,0 @@
-{
-  "name": "BeatDrop",
-  "description": "BeatDrop music streaming, library, and discovery web application.",
-  "requestFramePermissions": [],
-  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
-}
