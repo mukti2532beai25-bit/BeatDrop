@@ -1,0 +1,15 @@
+.app-layout {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.layout-main {
+  flex: 1;
+  height: 100%;
+  overflow-y: auto;
+  padding-bottom: 90px; /* keep content clear of the fixed Player bar */
+  box-sizing: border-box;
+}

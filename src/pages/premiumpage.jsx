@@ -1,6 +1,6 @@
 import React from 'react';
 import './premiumpage.css';
-import  plans  from '../data/plans.js';
+import  {plans}  from 'C:/Users/ASUS/Desktop/Beatdrop/BeatDrop/src/data.jsx';
 
 function BeatDropSubscription() {
   return (

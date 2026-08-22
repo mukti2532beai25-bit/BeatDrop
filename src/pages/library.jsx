@@ -1,4 +1,4 @@
-import "./Library.css";
+import "./library.css";
 import LibraryHeader from "../components/library/LibraryHeader";
 import QuickAccess from "../components/library/QuickAccess";
 import MadeForYou from "../components/library/MadeForYou";
