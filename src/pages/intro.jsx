@@ -1,11 +1,11 @@
 import React from 'react';
-import './home.css';
-import Hero from './components/home/Hero';
-import About from './components/home/About';
-import Features from './components/home/Features';
-import TechStack from './components/home/TechStack';
-import CTA from './components/home/CTA';
-import Footer from './components/home/Footer';
+import './intro.css';
+import Hero from '../components/intro/Hero';
+import About from '../components/intro/About';
+import Features from '../components/intro/Features';
+import TechStack from '../components/intro/TechStack';
+import CTA from '../components/intro/CTA';
+import Footer from '../components/intro/Footer';
 
 const BeatDropLanding = () => {
   return (

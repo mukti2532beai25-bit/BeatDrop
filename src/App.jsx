@@ -7,7 +7,7 @@ import LoginForm from "./pages/loginpage";
 import MainContent from "./components/home/MainContent";
 import Library from "./pages/library";
 import SearchPage from "./pages/search-page";
-import BeatDropSubscription from "./pages/premiumpage";
+// import BeatDropSubscription from "./pages/premiumpage";
 
 function App() {
     return (
@@ -49,7 +49,7 @@ function App() {
                         </Layout>
                     }
                 />
-
+{/* 
                 <Route
                     path="/premium"
                     element={
@@ -57,7 +57,7 @@ function App() {
                             <BeatDropSubscription />
                         </Layout>
                     }
-                />
+                /> */}
             </Routes>
         </BrowserRouter>
     );
