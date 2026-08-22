@@ -9,7 +9,7 @@ import LibraryCollection from "../components/library/LibraryCollection";
 
 function Library() {
     return (
-        <main className="library-page">
+        <main className="lbpage">
             <LibraryHeader />
             <QuickAccess />
             <MadeForYou />

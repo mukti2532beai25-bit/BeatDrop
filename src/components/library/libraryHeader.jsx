@@ -1,12 +1,12 @@
 function LibraryHeader() {
     return (
-        <div className="library-header">
+        <div className="lbheader">
             <div>
-                <p className="library-label">YOUR MUSIC</p>
+                <p className="lbname">YOUR MUSIC</p>
                 <h1>Your <span>Library</span></h1>
-                <p className="library-description">Everything you love,all in one place.</p>
+                <p className="lbdescription">Everything you love,all in one place.</p>
             </div>
-            <div className="library-actions">
+            <div className="lb-btns">
                 <button>
                     <i className="fa-solid fa-plus"></i>
                 </button>

@@ -2,9 +2,9 @@ import { LISTENING_STATS } from "../../data";
 function ListeningStats() {
     return (
         <section className="library-section">
-            <div className="section-heading">
+            <div className="qaheading">
                 <div>
-                    <p className="section-label">YOUR ACTIVITY</p>
+                    <p className="qalabel">YOUR ACTIVITY</p>
                     <h2>Listening stats</h2>
                 </div>
             </div>

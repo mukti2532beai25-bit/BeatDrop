@@ -2,13 +2,13 @@ import { MUSIC_DNA } from "../../data";
 function MusicDNA() {
     return (
         <section className="library-section">
-            <div className="section-heading">
+            <div className="qaheading">
                 <div>
-                    <p className="section-label">YOUR TASTE</p>
+                    <p className="qalabel">YOUR TASTE</p>
                     <h2> Your music DNA</h2>
                 </div>
             </div>
-            <div className="music-dna-card">
+            <div className="dna-card">
                 <div className="dna-description">
                     <div className="dna-icon">
                         <i className="fa-solid fa-fingerprint"></i>

@@ -4,14 +4,14 @@ function MadeForYou() {
 
     return (
         <section className="library-section">
-            <div className="section-heading">
+            <div className="qaheading">
                 <div>
-                    <p className="section-label">PERSONALIZED</p>
+                    <p className="qalabel">PERSONALIZED</p>
                     <h2>Made for you</h2>
                 </div>
-                <button className="see-all-button">See all</button>
+                <button className="seeall-btn">See all</button>
             </div>
-            <div className="made-for-you-grid">
+            <div className="mfucard">
                 {MADE_FOR_YOU.map((mix) => (
                     <div className="mix-card"key={mix.id}>
                         <div className="mix-icon">{mix.icon}</div>
@@ -20,7 +20,7 @@ function MadeForYou() {
                             <p>{mix.description}</p>
                             <span>{mix.type} </span>
                         </div>
-                        <button className="mix-play-button">
+                        <button className="mix-btn">
                             <i className="fa-solid fa-play"></i>
                         </button>
                     </div>

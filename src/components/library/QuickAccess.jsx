@@ -3,17 +3,17 @@ import { QUICK_ACCESS } from "../../data";
 function QuickAccess() {
     return (
         <section className="library-section">
-            <div className="section-heading">
+            <div className="qaheading">
                 <div>
-                    <p className="section-label">QUICK ACCESS</p>
+                    <p className="qalabel">QUICK ACCESS</p>
                     <h2>Jump back in</h2>
                 </div>
             </div>
 
-            <div className="quick-access-grid">
+            <div className="qacards">
                 {QUICK_ACCESS.map((item) => (
-                    <div className="quick-access-card" key={item.id}>
-                      <div className="quick-access-icon">
+                    <div className="quickcard" key={item.id}>
+                      <div className="qaicon">
                             {item.type === "liked" && (<i className="fa-solid fa-heart"></i>)}
                             {item.type === "recent" && ( <i className="fa-solid fa-clock-rotate-left"></i>)}
                             {item.type === "most-played" && (<i className="fa-solid fa-chart-simple"></i>)}
