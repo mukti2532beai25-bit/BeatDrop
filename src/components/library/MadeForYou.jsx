@@ -19,7 +19,7 @@ function MadeForYou() {
                         <div className="mix-content">
                             <h3>{mix.title}</h3>
                             <p>{mix.description}</p>
-                            <span>{mix.type} </span>
+                          
                         </div>
                         <button className="mix-btn" title="Play mix">
                             <Play size={16} fill="white" />

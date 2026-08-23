@@ -1,16 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { 
-  Plus, 
-  LayoutGrid, 
-  List, 
-  ChevronLeft, 
-  ChevronRight, 
-  Search, 
-  Bell, 
-  Sparkles,
-  Filter
-} from "lucide-react";
+import { Plus, LayoutGrid, List, ChevronLeft, ChevronRight, Search, Bell,Sparkles} from "lucide-react";
 
 function LibraryHeader() {
   const navigate = useNavigate();
@@ -19,8 +9,7 @@ function LibraryHeader() {
 
   return (
     <div className="lb-header-container">
-      {/* Universal Top Nav */}
-      <header className="lb-top-nav">
+        <header className="lb-top-nav">
         <div className="lb-nav-arrows">
           <button className="lb-arrow-btn" onClick={() => navigate(-1)} title="Go back">
             <ChevronLeft size={20} />
@@ -56,8 +45,6 @@ function LibraryHeader() {
           </div>
         </div>
       </header>
-
-      {/* Hero Title & Actions Header */}
       <div className="lbheader">
         <div className="lb-title-group">
           <div className="lb-badge">
@@ -74,7 +61,7 @@ function LibraryHeader() {
 
         <div className="lb-action-buttons">
           <button className="lb-create-btn" title="Create a new playlist">
-            <Plus size={18} />
+            <Plus size={16} />
             <span>New Playlist</span>
           </button>
           <div className="lb-view-toggle">
@@ -95,8 +82,6 @@ function LibraryHeader() {
           </div>
         </div>
       </div>
-
-      {/* Filter Tabs */}
       <div className="lb-filter-bar">
         {["all", "playlists", "artists", "albums", "podcasts", "downloaded"].map((tab) => (
           <button
