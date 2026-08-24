@@ -674,3 +674,74 @@ export const APP_INFO = {
   tagline: "Music for every moment.",
   version: "1.0.0",
 };
+
+
+// Premium Plans
+
+export const plans = [
+  {
+    id: 'mini',
+    name: 'Mini',
+    badge: '1-Day / 1-Week',
+    price: '₹7',
+    period: 'for 1 day',
+    description: 'Quick top-up for on-the-go music without ads.',
+    features: [
+      '1 account on mobile only',
+      'Listen ad-free for 1 day',
+      'Download up to 30 songs on 1 device',
+      'High audio quality (160 kbps)'
+    ],
+    themeColor: '#e0e7ff',
+    textColor: '#3730a3'
+  },
+  {
+    id: 'individual',
+    name: 'Individual',
+    badge: 'Most Popular',
+    price: '₹119',
+    period: 'per month',
+    description: 'Full uninterrupted streaming experience on all your devices.',
+    features: [
+      '1 Premium account',
+      'Ad-free music listening',
+      'Download 10,000 songs/device on up to 5 devices',
+      'Lossless ultra-high audio (320 kbps)',
+      'Pre-pay or subscribe automatically'
+    ],
+    themeColor: '#fce7f3',
+    textColor: '#9d174d'
+  },
+  {
+    id: 'duo',
+    name: 'Duo',
+    badge: 'For 2 People',
+    price: '₹149',
+    period: 'per month',
+    description: 'Two separate accounts for couples or friends living together.',
+    features: [
+      '2 independent Premium accounts',
+      'Shared Duo Mix automated playlist',
+      'Ad-free listening & offline downloads',
+      'Individual saved libraries & recommendations'
+    ],
+    themeColor: '#ede9fe',
+    textColor: '#5b21b6'
+  },
+  {
+    id: 'family',
+    name: 'Family',
+    badge: 'Best Value',
+    price: '₹179',
+    period: 'per month',
+    description: 'Up to 6 accounts for family members under one roof.',
+    features: [
+      'Up to 6 separate accounts',
+      'Block explicit music for kids',
+      'Ad-free music & podcast streaming',
+      'Individual downloads for every member'
+    ],
+    themeColor: '#dcfce7',
+    textColor: '#166534'
+  }
+];
