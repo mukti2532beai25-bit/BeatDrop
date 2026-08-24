@@ -2,6 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import "./premiumpage.css";
 import plans from "../data/plans.js";
+import {MdBlock, MdDownloadForOffline, MdGraphicEq, MdShuffle} from 'react-icons/md';
 
 function BeatDropSubscription() {
     const navigate = useNavigate();
@@ -33,28 +34,32 @@ function BeatDropSubscription() {
                     Ad-free tunes, unlimited offline downloads, and pristine
                     HD sound across all devices. Cancel whenever you want.
                 </p>
-
                 <div className="benefits">
                     <div className="benefit-card">
-                        <span className="emoji">🚫</span>
+                        <span className="emoji">
+                            <MdBlock size={26} color="#8ab52d" />
+                        </span>
                         <strong>Ad-Free Music</strong>
                         <span>Continuous flow</span>
                     </div>
-
                     <div className="benefit-card">
-                        <span className="emoji">📥</span>
+                        <span className="emoji">
+                            <MdDownloadForOffline size={26} color="#8ab52d" />
+                        </span>
                         <strong>Offline Play</strong>
                         <span>Save mobile data</span>
                     </div>
-
                     <div className="benefit-card">
-                        <span className="emoji">🎚️</span>
+                        <span className="emoji">
+                            <MdGraphicEq size={26} color="#8ab52d" />
+                        </span>
                         <strong>320 kbps HD</strong>
                         <span>Studio fidelity</span>
                     </div>
-
                     <div className="benefit-card">
-                        <span className="emoji">🔀</span>
+                        <span className="emoji">
+                            <MdShuffle size={26} color="#8ab52d" />
+                        </span>
                         <strong>Unlimited Skips</strong>
                         <span>Pick any track</span>
                     </div>
