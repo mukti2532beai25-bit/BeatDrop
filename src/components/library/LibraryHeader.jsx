@@ -19,18 +19,9 @@ function LibraryHeader() {
           </button>
         </div>
 
-        <div 
-          className="lb-search-bar" 
-          onClick={() => navigate("/search")}
-          title="Search your library"
-        >
+        <div className="lb-search-bar" onClick={() => navigate("/search")} title="Search your library">
           <Search size={17} className="lb-search-icon" />
-          <input 
-            type="text" 
-            placeholder="Search in your library..." 
-            className="lb-search-input"
-            readOnly
-          />
+          <input type="text" placeholder="Search in your library..." className="lb-search-input" readOnly/>
         </div>
 
         <div className="lb-nav-actions">
