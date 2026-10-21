@@ -164,6 +164,7 @@
   box-shadow: 0 4px 10px rgba(0,0,0,0.3);
   border-radius: 4px;
   z-index: 1;
+<<<<<<< HEAD
 }
 
 /* ---------- search results (Part B) ---------- */
@@ -274,3 +275,6 @@
     display: none;
   }
 }
+=======
+}
+>>>>>>> 7ba739941c3c91e6d3e6dd385effa0a8e478e6ac

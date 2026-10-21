@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, { useState, useEffect, useRef } from "react";
 import BrowseSection from "../components/search/BrowseSection";
 import Header from "../components/search/Header";
@@ -213,3 +214,22 @@ export default function SearchPage() {
     </div>
   );
 }
+=======
+import React from "react";
+import BrowseSection from "../components/search/BrowseSection";
+import Header from "../components/search/Header";
+import SearchTags from "../components/search/SearchTags";
+import { recentSearches, genres } from "../mockData.js";
+import "./search-page.css";
+
+export default function SearchPage() {
+  return (
+    <div className="search-page-scroll">
+      <Header />
+      <SearchTags tags={recentSearches} />
+      <BrowseSection genres={genres} />
+    </div>
+  );
+}
+
+>>>>>>> 7ba739941c3c91e6d3e6dd385effa0a8e478e6ac
