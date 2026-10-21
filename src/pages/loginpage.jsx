@@ -1,72 +1,45 @@
-import React, { useState } from 'react';
-import './loginpage.css';
-import { Link } from "react-router-dom";
 
-const LoginForm = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [error, setError] = useState('');
+import { useState } from "react";
+import { login } from "../auth/auth";
+import "./loginpage.css";
 
-  const handleLogin = (e) => {
-    e.preventDefault();
-    const correctEmail = "abc@gmail.com";
-    const correctPassword = "12345";
+export default function LoginForm() {
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
-    if (email === correctEmail && password === correctPassword) {
-      setIsLoggedIn(true);
-      setError('');
-    } else {
-      setError('Invalid email or password. Please try again.');
+  async function handleLogin() {
+    setError("");
+    setLoading(true);
+
+    try {
+      await login();
+    } catch (err) {
+      setError(err.message || "Unable to start BeatDrop login.");
+      setLoading(false);
     }
-  };
-
+  }
 
   return (
-    <div className="login-page-container">
-      <div className="login-card">
-        <h2>Log in to BeatDrop</h2>
-        <form onSubmit={handleLogin}>
-          <div className="input-container">
-            <label>Email</label>
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="Email or username"
-              required
-            />
-          </div>
-          <div className="input-container">
-            <label>Password</label>
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="Password"
-              required
-            />
-          </div>
-          {error && <p className="error-text">{error}</p>}
-          <Link to="/home" className="login-submit-btn">
-            Log In
-          </Link>
-        </form>
+    <main className="beatdrop-login">
+      <section className="login-card">
+        <div className="brand-mark">♫</div>
+        <h1 className="brand-title">BeatDrop</h1>
+        <h2>Log in to continue</h2>
+        <p className="login-subtitle">Your music, your vibe.</p>
 
-        <div className="divider"><span>Or log in with</span></div>
+        <button
+          className="login-button"
+          onClick={handleLogin}
+          disabled={loading}
+          type="button"
+        >
+          {loading ? "Connecting..." : "Continue with BeatDrop"}
+        </button>
 
-        <div className="other-options">
-          <button className="social-btn" type="button">Continue with Phone</button>
-          <button className="social-btn" type="button">Continue with Google</button>
-          <button className="social-btn" type="button">Continue with Facebook</button>
-        </div>
+        {error && <p className="login-error" role="alert">{error}</p>}
 
-        <p className="signup-option">
-          Don't have an account? <Link to="/home">Sign up for BeatDrop</Link>
-        </p>
-      </div>
-    </div>
+        <p className="login-footer">Made for music lovers.</p>
+      </section>
+    </main>
   );
-};
-
-export default LoginForm;
+}
