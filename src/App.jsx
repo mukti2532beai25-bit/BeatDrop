@@ -9,63 +9,62 @@ import MainContent from "./components/home/MainContent";
 import Library from "./pages/library";
 import SearchPage from "./pages/search-page";
 import BeatDropSubscription from "./pages/premiumpage";
-<<<<<<< HEAD
+
 import Callback from "./auth/Callback";
 import { AuthProvider } from "./auth/AuthContext";
 import ProtectedRoute from "./auth/ProtectedRoute";
-=======
->>>>>>> 7ba739941c3c91e6d3e6dd385effa0a8e478e6ac
+
+import { MusicProvider } from "./context/MusicContext";
 
 function App() {
-    return (
-        <BrowserRouter>
-<<<<<<< HEAD
-            <AuthProvider>
-=======
->>>>>>> 7ba739941c3c91e6d3e6dd385effa0a8e478e6ac
-            <Routes>
+  return (
+    <BrowserRouter>
+      <AuthProvider>
+        <MusicProvider>
+          <Routes>
+            <Route
+              path="/"
+              element={<BeatDropLanding />}
+            />
+
+            <Route
+              path="/login"
+              element={<LoginForm />}
+            />
+
+            <Route
+              path="/callback"
+              element={<Callback />}
+            />
+
+            <Route element={<ProtectedRoute />}>
+              <Route element={<Layout />}>
                 <Route
-                    path="/"
-                    element={<BeatDropLanding />}
+                  path="/home"
+                  element={<MainContent />}
                 />
 
                 <Route
-                    path="/login"
-                    element={<LoginForm/>}
+                  path="/search"
+                  element={<SearchPage />}
                 />
-
-<<<<<<< HEAD
-                <Route element={<ProtectedRoute />}>
-                    <Route element={<Layout />}>
-                        <Route path="/home" element={<MainContent />} />
-                        <Route path="/search" element={<SearchPage />} />
-                        <Route path="/library" element={<Library />} />
-                    </Route>
-=======
-                <Route element={<Layout />}>
-                    <Route path="/home" element={<MainContent />} />
-                    <Route path="/search" element={<SearchPage />} />
-                    <Route path="/library" element={<Library />} />
->>>>>>> 7ba739941c3c91e6d3e6dd385effa0a8e478e6ac
-                </Route>
 
                 <Route
-                    path="/premium"
-                    element={<BeatDropSubscription />}
+                  path="/library"
+                  element={<Library />}
                 />
-<<<<<<< HEAD
+              </Route>
+            </Route>
 
-                <Route
-                    path="/callback" 
-                    element={<Callback />} 
-                />
-            </Routes>
-            </AuthProvider>
-=======
-            </Routes>
->>>>>>> 7ba739941c3c91e6d3e6dd385effa0a8e478e6ac
-        </BrowserRouter>
-    );
+            <Route
+              path="/premium"
+              element={<BeatDropSubscription />}
+            />
+          </Routes>
+        </MusicProvider>
+      </AuthProvider>
+    </BrowserRouter>
+  );
 }
 
 export default App;

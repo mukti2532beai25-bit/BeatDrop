@@ -1,5 +1,5 @@
 import "./Library.css";
-import LibraryHeader from "../components/library/LibraryHeader";
+import LibraryHeader from "../components/library/libraryHeader";
 import QuickAccess from "../components/library/QuickAccess";
 import MadeForYou from "../components/library/MadeForYou";
 import RecentlyPlayed from "../components/library/RecentlyPlayed";

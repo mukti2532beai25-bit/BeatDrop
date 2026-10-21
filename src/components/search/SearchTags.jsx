@@ -1,30 +1,21 @@
 import React from "react";
 
-<<<<<<< HEAD
-
 const SearchTags = ({ tags, onTagClick }) => {
-  // nothing to show yet
-  if (tags.length === 0) {
+  // Don't show the section if there are no recent searches.
+  if (!tags || tags.length === 0) {
     return null;
   }
 
-=======
-const SearchTags = ({ tags }) => {
->>>>>>> 7ba739941c3c91e6d3e6dd385effa0a8e478e6ac
   return (
     <section className="search-tags-section">
       <div className="tags-container">
         {tags.map((tag, index) => (
-<<<<<<< HEAD
           <button
-            key={index}
+            key={`${tag}-${index}`}
             type="button"
             className="search-tag"
-            onClick={() => onTagClick(tag)}
+            onClick={() => onTagClick?.(tag)}
           >
-=======
-          <button key={index} className="search-tag">
->>>>>>> 7ba739941c3c91e6d3e6dd385effa0a8e478e6ac
             <span className="search-icon-small">🔍</span>
             {tag}
           </button>
@@ -34,8 +25,4 @@ const SearchTags = ({ tags }) => {
   );
 };
 
-<<<<<<< HEAD
 export default SearchTags;
-=======
-export default SearchTags;
->>>>>>> 7ba739941c3c91e6d3e6dd385effa0a8e478e6ac
