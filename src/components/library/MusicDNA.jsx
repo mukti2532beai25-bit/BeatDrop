@@ -1,26 +1,29 @@
+import React from "react";
+import { Fingerprint } from "lucide-react";
 import { MUSIC_DNA } from "../../data";
+
 function MusicDNA() {
     return (
         <section className="library-section">
-            <div className="section-heading">
+            <div className="qaheading">
                 <div>
-                    <p className="section-label">YOUR TASTE</p>
-                    <h2> Your music DNA</h2>
+                    <p className="qalabel">YOUR TASTE</p>
+                    <h2>Your music DNA</h2>
                 </div>
             </div>
-            <div className="music-dna-card">
+            <div className="dna-card">
                 <div className="dna-description">
                     <div className="dna-icon">
-                        <i className="fa-solid fa-fingerprint"></i>
+                        <Fingerprint size={24} />
                     </div>
                     <div>
                         <h3>Your sound in numbers</h3>
-                        <p> A snapshot of the genres you listen to the most.</p>
+                        <p>A snapshot of the genres you listen to the most.</p>
                     </div>
                 </div>
                 <div className="dna-list">
                     {MUSIC_DNA.map((item) => (
-                        <div className="dna-row"key={item.genre}>                    
+                        <div className="dna-row" key={item.genre}>                    
                             <div className="dna-title">
                                 <span>{item.genre}</span>
                                 <strong>{item.percentage}%</strong>

@@ -1,3 +1,5 @@
+import React from "react";
+import { Play } from "lucide-react";
 import { LIBRARY_ITEMS } from "../../data";
 
 function LibraryCollection() {
@@ -5,22 +7,22 @@ function LibraryCollection() {
         <section className="library-section">
             <div className="collection-header">
                 <div>
-                    <p className="section-label">YOUR COLLECTION</p>
+                    <p className="qalabel">YOUR COLLECTION</p>
                     <h2>Your library</h2>
                 </div>
 
-                <button className="see-all-button">See all</button>
+                <button className="seeall-btn">See all</button>
             </div>
-            <div className="library-grid">
+            <div className="cl-column">
                 {LIBRARY_ITEMS.map((item) => (
-                    <div className="library-card" key={item.id}>
-                        <div className="library-card-image">
+                    <div className="cl-card" key={item.id}>
+                        <div className="cl-img">
                             <img src={item.cover} alt={item.title} />
-                            <button className="card-play-button">
-                                <i className="fa-solid fa-play"></i>
+                            <button className="cl-btn" title="Play">
+                                <Play size={16} fill="white" />
                             </button>
                         </div>
-                          <div className="library-card-info">
+                          <div className="cl-info">
                             <span>{item.type}</span>
                             <h3>{item.title}</h3>
                             <p>{item.description}</p>

@@ -9,15 +9,17 @@ import LibraryCollection from "../components/library/LibraryCollection";
 
 function Library() {
     return (
-        <main className="library-page">
-            <LibraryHeader />
-            <QuickAccess />
-            <MadeForYou />
-            <RecentlyPlayed />
-            <ListeningStats />
-            <MusicDNA />
-            <LibraryCollection />
-        </main>
+        <div className="library-page-scroll" style={{ width: "100%", height: "100%", overflowY: "auto", boxSizing: "border-box" }}>
+            <main className="lbpage">
+                <LibraryHeader />
+                <QuickAccess />
+                <MadeForYou />
+                <RecentlyPlayed />
+                <ListeningStats />
+                <MusicDNA />
+                <LibraryCollection />
+            </main>
+        </div>
     );
 }
 
