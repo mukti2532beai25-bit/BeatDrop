@@ -1,37 +1,36 @@
 import React from "react";
-import { Play } from "lucide-react";
-import { LIBRARY_ITEMS } from "../../data";
+import { Library } from "lucide-react";
 
-function LibraryCollection() {
-    return (
-        <section className="library-section">
-            <div className="collection-header">
-                <div>
-                    <p className="qalabel">YOUR COLLECTION</p>
-                    <h2>Your library</h2>
-                </div>
+const FALLBACK_IMAGE = "https://placehold.co/300x300/24252a/d4ff32?text=♫";
 
-                <button className="seeall-btn">See all</button>
+export default function LibraryCollection({ playlists }) {
+  return (
+    <section className="library-section">
+      <div className="collection-header">
+        <div>
+          <p className="qalabel">YOUR PLAYLISTS</p>
+          <h2>Playlists you own</h2>
+        </div>
+      </div>
+
+      {playlists.length ? (
+        <div className="cl-column">
+          {playlists.map((playlist) => (
+            <div className="cl-card" key={playlist.id || playlist.name}>
+              <div className="cl-img">
+                <img src={playlist.image || FALLBACK_IMAGE} alt="" />
+              </div>
+              <div className="cl-info">
+                <span><Library size={11} /> Playlist</span>
+                <h3>{playlist.name}</h3>
+                <p>{playlist.trackCount} tracks</p>
+              </div>
             </div>
-            <div className="cl-column">
-                {LIBRARY_ITEMS.map((item) => (
-                    <div className="cl-card" key={item.id}>
-                        <div className="cl-img">
-                            <img src={item.cover} alt={item.title} />
-                            <button className="cl-btn" title="Play">
-                                <Play size={16} fill="white" />
-                            </button>
-                        </div>
-                          <div className="cl-info">
-                            <span>{item.type}</span>
-                            <h3>{item.title}</h3>
-                            <p>{item.description}</p>
-                        </div>
-                    </div>
-                ))}
-            </div>
-        </section>
-    );
+          ))}
+        </div>
+      ) : (
+        <p className="library-empty">No playlists were returned by Spotify.</p>
+      )}
+    </section>
+  );
 }
-
-export default LibraryCollection;

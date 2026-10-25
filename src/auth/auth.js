@@ -1,15 +1,7 @@
-<<<<<<< HEAD
 import { generateCodeVerifier, generateCodeChallenge } from "./pkce";       
 
 export const CLIENT_ID = import.meta.env.VITE_SPOTIFY_CLIENT_ID;
 export const REDIRECT_URI = "http://127.0.0.1:5173/callback";
-=======
-import { generateCodeVerifier, generateCodeChallenge } from "./pkce";
-import { getBeatDropConfig } from "./beatdtopConfig";
-
-const { clientId: CLIENT_ID, redirectUri: REDIRECT_URI } =
-  getBeatDropConfig();
->>>>>>> 7ba739941c3c91e6d3e6dd385effa0a8e478e6ac
 export const VERIFIER_KEY = "spotify_auth_verifier";
 export const STATE_KEY = "spotify_auth_state";
 const TOKEN_URL = "https://accounts.spotify.com/api/token";
@@ -25,34 +17,21 @@ const SCOPES = [
 
 
 export async function login() {
-<<<<<<< HEAD
     
-=======
-
->>>>>>> 7ba739941c3c91e6d3e6dd385effa0a8e478e6ac
   // 1. generate a verifier
   const verifier = generateCodeVerifier();
 
   // 2. generate the challenge from it (await!)
   const challenge = await generateCodeChallenge(verifier);
-<<<<<<< HEAD
   
-=======
-
->>>>>>> 7ba739941c3c91e6d3e6dd385effa0a8e478e6ac
   // 3. generate a random state
   const state = generateCodeVerifier();
 
   // 4. save verifier and state in localStorage (two different keys)
   localStorage.setItem(VERIFIER_KEY, verifier);
   localStorage.setItem(STATE_KEY, state);
-<<<<<<< HEAD
   
   
-=======
-
-
->>>>>>> 7ba739941c3c91e6d3e6dd385effa0a8e478e6ac
 
   // 5. build the params: client_id, response_type="code", redirect_uri,
   //    code_challenge_method="S256", code_challenge, state, scope
@@ -195,8 +174,4 @@ export async function getAccessToken(forceRefresh = false) {
 
   // 4. return refreshPromise
   return refreshPromise;
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> 7ba739941c3c91e6d3e6dd385effa0a8e478e6ac
