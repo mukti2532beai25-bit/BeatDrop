@@ -50,7 +50,4 @@ export default function Callback() {
 
   return <p>Logging you in...</p>;
 }
-<<<<<<< HEAD
 
-=======
->>>>>>> 7ba739941c3c91e6d3e6dd385effa0a8e478e6ac

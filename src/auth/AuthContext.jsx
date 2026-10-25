@@ -8,11 +8,7 @@
 import { createContext, useCallback, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { login as spotifyLogin, clearTokens, ACCESS_TOKEN_KEY } from "./auth";
-<<<<<<< HEAD
 import { spotifyFetch } from "../api/spotify";
-=======
-import { spotifyFetch } from "./api/spotify";
->>>>>>> 7ba739941c3c91e6d3e6dd385effa0a8e478e6ac
 
 const AuthContext = createContext(null);
 

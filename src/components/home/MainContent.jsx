@@ -1,56 +1,129 @@
-import React, { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
-import { 
-  ChevronLeft, 
-  ChevronRight, 
-  Search, 
-  Bell, 
-  Play, 
+import React, { useCallback, useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import {
+  Bell,
+  ChevronLeft,
+  ChevronRight,
+  Play,
+  Search,
   Sparkles,
-  Radio 
 } from "lucide-react";
-import { 
-  SONGS, 
-  PLAYLISTS, 
-  ALBUMS, 
-  ARTISTS, 
-  MADE_FOR_YOU, 
-  RECENTLY_PLAYED 
-} from "../../data";
+import { useAuth } from "../../auth/AuthContext";
+import { getMyPlaylists, getRecentlyPlayed, getTopTracks } from "../../api/library";
+import { usePlayer } from "../../player/PlayerContext";
 import "./MainContent.css";
 
+const FALLBACK_IMAGE = "https://placehold.co/400x400/24252a/d4ff32?text=♪";
+
+function TrackCard({ track, onPlay }) {
+  return (
+    <div className="music-card">
+      <div className="card-img-wrapper">
+        <img
+          src={track.image || FALLBACK_IMAGE}
+          alt=""
+          className="card-img"
+        />
+        <button
+          className="card-play-overlay"
+          type="button"
+          title={"Play " + track.name}
+          onClick={() => onPlay(track)}
+        >
+          <Play size={18} fill="#121212" color="#121212" />
+        </button>
+      </div>
+      <h4>{track.name}</h4>
+      <p>{track.artists || "Unknown artist"}</p>
+    </div>
+  );
+}
+
+function PlaylistCard({ playlist }) {
+  return (
+    <div className="music-card">
+      <div className="card-img-wrapper">
+        <img
+          src={playlist.image || FALLBACK_IMAGE}
+          alt=""
+          className="card-img"
+        />
+      </div>
+      <h4>{playlist.name}</h4>
+      <p>{playlist.trackCount} tracks</p>
+    </div>
+  );
+}
+
 export default function MainContent() {
+  const navigate = useNavigate();
+  const { user } = useAuth();
+  const { playTrack } = usePlayer();
   const [activeFilter, setActiveFilter] = useState("all");
+  const [topTracks, setTopTracks] = useState([]);
+  const [recentTracks, setRecentTracks] = useState([]);
+  const [playlists, setPlaylists] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  const loadHome = useCallback(async () => {
+    setLoading(true);
+    setError("");
+
+    try {
+      const [top, recent, ownedPlaylists] = await Promise.all([
+        getTopTracks(),
+        getRecentlyPlayed(),
+        getMyPlaylists(),
+      ]);
+
+      setTopTracks(top);
+      setRecentTracks(recent);
+      setPlaylists(ownedPlaylists);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Could not load your home page.");
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    loadHome().catch(() => {
+      if (!cancelled) {
+        setError("Could not load your home page.");
+      }
+    });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [loadHome]);
+
+  const handlePlay = (track) => {
+    playTrack(track.uri);
+  };
+
+  const displayName = user?.displayName || "there";
+  const featuredTrack = topTracks[0] || recentTracks[0];
 
   return (
     <main className="main-content">
-      <Nav />
+      <Nav user={user} navigate={navigate} />
+
       <div className="core-scroll-area">
         <div className="main-filters">
-          <button 
-            className={`filter-btn ${activeFilter === "all" ? "active-filter" : ""}`}
-            onClick={() => setActiveFilter("all")}
-          >
-            All
-          </button>
-          <button 
-            className={`filter-btn ${activeFilter === "music" ? "active-filter" : ""}`}
-            onClick={() => setActiveFilter("music")}
-          >
-            Music
-          </button>
-          <button 
-            className={`filter-btn ${activeFilter === "podcasts" ? "active-filter" : ""}`}
-            onClick={() => setActiveFilter("podcasts")}
-          >
-            Podcasts
-          </button>
-          <button 
-            className={`filter-btn ${activeFilter === "live" ? "active-filter" : ""}`}
-            onClick={() => setActiveFilter("live")}
-          >
-            Live Radio
-          </button>
+          {["all", "music"].map((filter) => (
+            <button
+              key={filter}
+              className={"filter-btn " + (activeFilter === filter ? "active-filter" : "")}
+              type="button"
+              onClick={() => setActiveFilter(filter)}
+            >
+              {filter === "all" ? "All" : "Music"}
+            </button>
+          ))}
         </div>
 
         <div className="hero-banner">
@@ -58,17 +131,22 @@ export default function MainContent() {
             <div className="hero-content">
               <div className="hero-badge">
                 <Sparkles size={14} className="hero-badge-icon" />
-                <span>CURATED JUST FOR YOU</span>
+                <span>YOUR SPOTIFY, YOUR SPACE</span>
               </div>
-              <h1 className="hero-title1">Get Lost in the Sound</h1>
+              <h1 className="hero-title1">Good music starts here.</h1>
               <p className="hero-desc">
-                Hit play to kick off your ultimate personalized mix, featuring your favorite tracks and fresh discoveries tuned to your mood.
+                Welcome back, {displayName}. Pick up where you left off or play something from your top tracks.
               </p>
 
               <div className="hero-buttons">
-                <button className="play-btn">
+                <button
+                  className="play-btn"
+                  type="button"
+                  onClick={() => featuredTrack && handlePlay(featuredTrack)}
+                  disabled={!featuredTrack}
+                >
                   <Play size={18} fill="#121212" />
-                  <span>Listen Now</span>
+                  <span>{featuredTrack ? "Listen Now" : "No track ready"}</span>
                 </button>
                 <Link to="/library" className="hero-secondary-btn">
                   View Library
@@ -76,208 +154,56 @@ export default function MainContent() {
               </div>
             </div>
 
-
             <div className="hero-artwork-card">
-              <img 
-                src={SONGS[1]?.cover || "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=500"} 
-                alt="Featured Mix" 
+              <img
+                src={featuredTrack?.image || FALLBACK_IMAGE}
+                alt=""
                 className="hero-artwork-img"
               />
               <div className="hero-artwork-info">
-                <span className="hero-artwork-tag">Featured Mix</span>
-                <h3 className="hero-artwork-title">After Hours Mix</h3>
-                <p className="hero-artwork-subtitle">The Weeknd & Guests • 24 Tracks</p>
+                <span className="hero-artwork-tag">Top track</span>
+                <h3 className="hero-artwork-title">
+                  {featuredTrack?.name || "Your music will appear here"}
+                </h3>
+                <p className="hero-artwork-subtitle">
+                  {featuredTrack?.artists || "Start listening to build your home"}
+                </p>
               </div>
             </div>
           </div>
         </div>
 
-        {(activeFilter === "all" || activeFilter === "music") && (
-          <section className="music-section">
-            <div className="section-header">
-              <div>
-                <h2>Made For You</h2>
-                <p className="section-subtext">Personalized daily mixes tailored to your listening habits</p>
-              </div>
-              <Link to="/library" className="see-all-link">See all</Link>
-            </div>
-
-            <div className="card-grid">
-              {MADE_FOR_YOU.map((mix) => (
-                <div className="music-card" key={`made-${mix.id}`}>
-                  <div className="card-img-wrapper">
-                    <img 
-                      src={mix.songs?.[0]?.cover || PLAYLISTS[0]?.cover} 
-                      alt={mix.title} 
-                      className="card-img"
-                    />
-                    <button className="card-play-overlay">
-                      <Play size={18} fill="#121212" color="#121212" />
-                    </button>
-                    <span className="card-badge">{mix.icon}</span>
-                  </div>
-                  <h4>{mix.title}</h4>
-                  <p>{mix.description}</p>
-                </div>
-              ))}
-
-              {PLAYLISTS.slice(1, 4).map((pl) => (
-                <div className="music-card" key={`pl-${pl.id}`}>
-                  <div className="card-img-wrapper">
-                    <img 
-                      src={pl.cover} 
-                      alt={pl.title} 
-                      className="card-img"
-                    />
-                    <button className="card-play-overlay">
-                      <Play size={18} fill="#121212" color="#121212" />
-                    </button>
-                  </div>
-                  <h4>{pl.title}</h4>
-                  <p>{pl.description}</p>
-                </div>
-              ))}
-            </div>
-          </section>
+        {loading && (
+          <div className="home-state">
+            <p>Loading your Spotify library...</p>
+          </div>
         )}
 
-
-        {(activeFilter === "all" || activeFilter === "music") && (
-          <section className="music-section">
-            <div className="section-header">
-              <div>
-                <h2>Recently Played</h2>
-                <p className="section-subtext">Jump back into what you were listening to</p>
-              </div>
-              <Link to="/library" className="see-all-link">See all</Link>
-            </div>
-
-            <div className="card-grid">
-              {RECENTLY_PLAYED.map((song) => (
-                <div className="music-card" key={`recent-${song.id}`}>
-                  <div className="card-img-wrapper">
-                    <img 
-                      src={song.cover} 
-                      alt={song.title} 
-                      className="card-img"
-                    />
-                    <button className="card-play-overlay">
-                      <Play size={18} fill="#121212" color="#121212" />
-                    </button>
-                  </div>
-                  <h4>{song.title}</h4>
-                  <p>{song.artist} • {song.genre}</p>
-                </div>
-              ))}
-
-              {SONGS.slice(5, 7).map((song) => (
-                <div className="music-card" key={`recent-extra-${song.id}`}>
-                  <div className="card-img-wrapper">
-                    <img 
-                      src={song.cover} 
-                      alt={song.title} 
-                      className="card-img"
-                    />
-                    <button className="card-play-overlay">
-                      <Play size={18} fill="#121212" color="#121212" />
-                    </button>
-                  </div>
-                  <h4>{song.title}</h4>
-                  <p>{song.artist} • {song.genre}</p>
-                </div>
-              ))}
-            </div>
-          </section>
+        {error && !loading && (
+          <div className="home-state home-error">
+            <p>{error}</p>
+            <button type="button" onClick={loadHome}>Try again</button>
+          </div>
         )}
 
-        {(activeFilter === "all" || activeFilter === "music") && (
-          <section className="music-section">
-            <div className="section-header">
-              <div>
-                <h2>Popular Artists</h2>
-                <p className="section-subtext">Trending vocalists and creators this week</p>
-              </div>
-            </div>
-
-            <div className="card-grid">
-              {ARTISTS.map((artist) => (
-                <div className="music-card artist-card" key={`artist-${artist.id}`}>
-                  <div className="artist-avatar-wrapper">
-                    <img 
-                      src={artist.image} 
-                      alt={artist.name} 
-                      className="artist-avatar-img"
-                    />
-                    <button className="card-play-overlay">
-                      <Play size={18} fill="#121212" color="#121212" />
-                    </button>
-                  </div>
-                  <h4>{artist.name}</h4>
-                  <p className="artist-genre">{artist.genre}</p>
-                  <span className="artist-followers">{artist.followers} listeners</span>
-                </div>
-              ))}
-            </div>
-          </section>
+        {!loading && !error && activeFilter === "all" && (
+          <HomeSections
+            topTracks={topTracks}
+            recentTracks={recentTracks}
+            playlists={playlists}
+            onPlay={handlePlay}
+          />
         )}
 
-        {activeFilter === "podcasts" && (
+        {!loading && !error && activeFilter === "music" && (
           <section className="music-section">
-            <div className="section-header">
-              <div>
-                <h2>Featured Podcasts & Stories</h2>
-                <p className="section-subtext">Deep conversations, tech breakdowns, and audio dramas</p>
-              </div>
-            </div>
-
+            <SectionHeader title="Your top tracks" subtitle="Based on your Spotify listening history" />
             <div className="card-grid">
-              {[
-                { id: "p1", title: "The Daily Frequency", host: "Echo Studios", cover: "https://images.unsplash.com/photo-1478737270239-2f02b77fc618?w=500", desc: "Top music stories and artist roundtables." },
-                { id: "p2", title: "Sound & Architecture", host: "Sonic Labs", cover: "https://images.unsplash.com/photo-1590602847861-f357a9332bbc?w=500", desc: "How synthesizer waves changed modern pop." },
-                { id: "p3", title: "Midnight Coding Radio", host: "Dev Beats", cover: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=500", desc: "Ambient discussions and chill lo-fi soundscapes." },
-              ].map((podcast) => (
-                <div className="music-card" key={podcast.id}>
-                  <div className="card-img-wrapper">
-                    <img src={podcast.cover} alt={podcast.title} className="card-img" />
-                    <button className="card-play-overlay">
-                      <Play size={18} fill="#121212" color="#121212" />
-                    </button>
-                  </div>
-                  <h4>{podcast.title}</h4>
-                  <p>{podcast.desc}</p>
-                </div>
-              ))}
-            </div>
-          </section>
-        )}
-
-        {activeFilter === "live" && (
-          <section className="music-section">
-            <div className="section-header">
-              <div>
-                <h2>Live Radio & Streams</h2>
-                <p className="section-subtext">Broadcasting real-time beats 24/7 across the globe</p>
-              </div>
-            </div>
-
-            <div className="card-grid">
-              {[
-                { id: "l1", title: "Tokyo Synthwave FM", listeners: "14.2K live", cover: "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=500", desc: "Live retro electro & cyberpunk beats" },
-                { id: "l2", title: "Berlin Deep House", listeners: "8.9K live", cover: "https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=500", desc: "Underground club streams non-stop" },
-                { id: "l3", title: "Chillhop Cafe Live", listeners: "23.4K live", cover: "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=500", desc: "Smooth beats to relax & study to" },
-              ].map((station) => (
-                <div className="music-card" key={station.id}>
-                  <div className="card-img-wrapper">
-                    <img src={station.cover} alt={station.title} className="card-img" />
-                    <button className="card-play-overlay">
-                      <Radio size={18} color="#121212" />
-                    </button>
-                    <span className="live-pill">🔴 LIVE</span>
-                  </div>
-                  <h4>{station.title}</h4>
-                  <p>{station.desc} • {station.listeners}</p>
-                </div>
-              ))}
+              {topTracks.length
+                ? topTracks.map((track) => (
+                    <TrackCard key={track.id || track.uri} track={track} onPlay={handlePlay} />
+                  ))
+                : <EmptySection text="Spotify has not returned any top tracks yet." />}
             </div>
           </section>
         )}
@@ -286,42 +212,86 @@ export default function MainContent() {
   );
 }
 
-function Nav() {
+function HomeSections({ topTracks, recentTracks, playlists, onPlay }) {
+  return (
+    <>
+      <section className="music-section">
+        <SectionHeader title="Your top tracks" subtitle="Based on your Spotify listening history" />
+        <div className="card-grid">
+          {topTracks.length
+            ? topTracks.slice(0, 6).map((track) => (
+                <TrackCard key={track.id || track.uri} track={track} onPlay={onPlay} />
+              ))
+            : <EmptySection text="Spotify has not returned any top tracks yet." />}
+        </div>
+      </section>
 
+      <section className="music-section">
+        <SectionHeader title="Recently played" subtitle="Tracks you listened to recently" />
+        <div className="card-grid">
+          {recentTracks.length
+            ? recentTracks.slice(0, 6).map((track) => (
+                <TrackCard key={track.id || track.uri} track={track} onPlay={onPlay} />
+              ))
+            : <EmptySection text="Nothing played recently." />}
+        </div>
+      </section>
+
+      <section className="music-section">
+        <SectionHeader title="Your playlists" subtitle="Playlists from your Spotify account" />
+        <div className="card-grid">
+          {playlists.length
+            ? playlists.slice(0, 6).map((playlist) => (
+                <PlaylistCard key={playlist.id || playlist.name} playlist={playlist} />
+              ))
+            : <EmptySection text="You do not have any playlists available." />}
+        </div>
+      </section>
+    </>
+  );
+}
+
+function SectionHeader({ title, subtitle }) {
+  return (
+    <div className="section-header">
+      <div>
+        <h2>{title}</h2>
+        <p className="section-subtext">{subtitle}</p>
+      </div>
+    </div>
+  );
+}
+
+function EmptySection({ text }) {
+  return <p className="empty-section">{text}</p>;
+}
+
+function Nav({ user, navigate }) {
   return (
     <header className="top-header">
       <div className="nav-arrows">
-        <button className="arrow-btn" type="button" aria-label="Previous">
+        <button className="arrow-btn" type="button" aria-label="Previous" onClick={() => navigate(-1)}>
           <ChevronLeft size={20} />
         </button>
-        <button className="arrow-btn" type="button" aria-label="Next">
+        <button className="arrow-btn" type="button" aria-label="Next" onClick={() => navigate(1)}>
           <ChevronRight size={20} />
         </button>
       </div>
 
-      <div
-        className="search-container"
-        title="Search BeatDrop"
-      >
+      <button className="search-container" type="button" onClick={() => navigate("/search")}>
         <Search size={18} className="search-icon" />
-        <input
-          type="text"
-          placeholder="Artists, songs, albums, podcasts..."
-          className="search-input"
-        />
-      </div>
+        <span className="search-input">Artists, songs, albums, podcasts...</span>
+      </button>
 
       <div className="profile-actions">
-        <Link to="/premium" className="explore-btn">
-          Explore Premium
-        </Link>
-
-        <button className="icon-btn" title="Notifications">
+        <Link to="/premium" className="explore-btn">Explore Premium</Link>
+        <button className="icon-btn" type="button" title="Notifications">
           <Bell size={19} />
         </button>
-
         <Link to="/library" className="profile-icon" title="Your Account">
-          <span className="profile-initials">MK</span>
+          <span className="profile-initials">
+            {user?.displayName?.slice(0, 2).toUpperCase() || "BD"}
+          </span>
         </Link>
       </div>
     </header>
