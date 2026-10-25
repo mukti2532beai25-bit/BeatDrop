@@ -1,223 +1,201 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import BrowseSection from "../components/search/BrowseSection";
 import Header from "../components/search/Header";
 import SearchTags from "../components/search/SearchTags";
-import TrackRow from "../components/search/TrackRow";
-import { genres } from "../mockData.js";
+import TrackResults from "../components/search/TrackResults";
 import { searchTracks } from "../api/search";
+import { genres, recentSearches as defaultRecentSearches } from "../mockData.js";
 import "./search-page.css";
+import { usePlayer } from "../player/PlayerContext";
 
-const RECENT_KEY = "beatdrop_recent_searches";
-const MAX_RECENT = 7;
+const RECENT_SEARCHES_KEY = "beatdrop_recent_searches";
 
-function loadRecent() {
+
+function readRecentSearches() {
   try {
-    const saved = localStorage.getItem(RECENT_KEY);
-    if (saved) {
-      return JSON.parse(saved);
-    }
+    const saved = JSON.parse(localStorage.getItem(RECENT_SEARCHES_KEY));
+    return Array.isArray(saved) ? saved : defaultRecentSearches;
   } catch {
-    // Start with an empty list if saved data is invalid.
+    return defaultRecentSearches;
   }
-
-  return [];
 }
 
-function genreQuery(genre) {
-  return 'genre:"' + genre.title + '"';
+function saveRecentSearch(query) {
+  try {
+    const current = readRecentSearches();
+    const updated = [
+      query,
+      ...current.filter((item) => item.toLowerCase() !== query.toLowerCase()),
+    ].slice(0, 8);
+    localStorage.setItem(RECENT_SEARCHES_KEY, JSON.stringify(updated));
+  } catch {
+    // Search still works when localStorage is unavailable.
+  }
 }
 
 export default function SearchPage() {
   const [query, setQuery] = useState("");
+  const [recentSearches, setRecentSearches] = useState(readRecentSearches);
   const [tracks, setTracks] = useState([]);
   const [nextOffset, setNextOffset] = useState(null);
   const [status, setStatus] = useState("idle");
-  const [errorMessage, setErrorMessage] = useState("");
-  const [loadingMore, setLoadingMore] = useState(false);
-  const [retryCount, setRetryCount] = useState(0);
-  const [recent, setRecent] = useState(loadRecent);
+  const [error, setError] = useState("");
+  const { playTrack } = usePlayer();
+  const requestId = useRef(0);
+  const lastSearchedQuery = useRef("");
 
-  const searchId = useRef(0);
+  const runSearch = async (value, offset = 0, append = false) => {
+    const cleanQuery = value.trim();
 
-  useEffect(() => {
-    searchId.current += 1;
-    const myId = searchId.current;
-    const text = query.trim();
-
-    if (text.length < 2) {
-      setStatus("idle");
-      setTracks([]);
-      setNextOffset(null);
-      setErrorMessage("");
+    if (cleanQuery.length < 2) {
       return;
     }
 
-    const timer = setTimeout(async () => {
-      setStatus("loading");
-      setErrorMessage("");
+    const currentRequest = requestId.current + 1;
+    requestId.current = currentRequest;
+    lastSearchedQuery.current = cleanQuery.toLowerCase();
 
-      try {
-        const result = await searchTracks(text, 0);
+    setStatus("loading");
+    if (!append) {
+      setTracks([]);
+    }
+    setError("");
 
-        if (myId !== searchId.current) return;
+    try {
+      const result = await searchTracks(cleanQuery, offset);
 
-        setTracks(result.tracks);
-        setNextOffset(result.nextOffset);
-        setStatus(result.tracks.length ? "results" : "empty");
-      } catch (error) {
-        if (myId !== searchId.current) return;
-
-        setErrorMessage(error.message || "Search failed.");
-        setStatus("error");
+      if (currentRequest !== requestId.current) {
+        return;
       }
-    }, 400);
 
-    return () => clearTimeout(timer);
-  }, [query, retryCount]);
-
-  async function loadMore() {
-    if (nextOffset === null || loadingMore) return;
-
-    const myId = searchId.current;
-
-    setLoadingMore(true);
-
-    try {
-      const result = await searchTracks(query.trim(), nextOffset);
-
-      if (myId !== searchId.current) return;
-
-      setTracks((currentTracks) => [
-        ...currentTracks,
-        ...result.tracks,
-      ]);
-
+      setTracks((currentTracks) => append
+        ? [...currentTracks, ...result.tracks]
+        : result.tracks);
       setNextOffset(result.nextOffset);
-    } catch (error) {
-      if (myId !== searchId.current) return;
+      setStatus(result.tracks.length ? "results" : "empty");
+      saveRecentSearch(cleanQuery);
+      setRecentSearches(readRecentSearches());
+    } catch (err) {
+      if (currentRequest !== requestId.current) {
+        return;
+      }
 
-      setErrorMessage(error.message || "Unable to load more tracks.");
-    } finally {
-      setLoadingMore(false);
+      setStatus("error");
+      setError(err instanceof Error ? err.message : "Search failed. Please try again.");
     }
-  }
+  };
 
-  function saveRecent(text) {
-    const clean = text.trim();
+  useEffect(() => {
+    const cleanQuery = query.trim();
 
-    if (clean.length < 2) return;
-
-    const newList = [
-      clean,
-      ...recent.filter(
-        (item) => item.toLowerCase() !== clean.toLowerCase()
-      ),
-    ].slice(0, MAX_RECENT);
-
-    setRecent(newList);
-
-    try {
-      localStorage.setItem(RECENT_KEY, JSON.stringify(newList));
-    } catch {
-      // Recent searches will still work for this session.
+    if (cleanQuery.length < 2) {
+      return undefined;
     }
-  }
 
-  function handleRecentClick(text) {
-    setQuery(text);
-    saveRecent(text);
-  }
+    if (lastSearchedQuery.current === cleanQuery.toLowerCase()) {
+      return undefined;
+    }
 
-  function handleGenreClick(genre) {
-    setQuery(genreQuery(genre));
-  }
+    const timer = window.setTimeout(() => {
+      runSearch(cleanQuery);
+    }, 350);
 
-  function handlePlay(track) {
-    // Temporary until the existing player integration is connected.
-    console.log("TEMP play:", track.uri);
-    saveRecent(query);
-  }
+    return () => window.clearTimeout(timer);
+  }, [query]);
 
-  function retrySearch() {
-    setErrorMessage("");
-    setRetryCount((count) => count + 1);
-  }
+  const handleQueryChange = (value) => {
+    setQuery(value);
 
-  let content;
+    if (value.trim().length < 2) {
+      requestId.current += 1;
+      lastSearchedQuery.current = "";
+      setTracks([]);
+      setNextOffset(null);
+      setStatus("idle");
+      setError("");
+    }
+  };
 
-  if (query.trim().length < 2) {
-    content = (
-      <div>
-        <SearchTags tags={recent} onTagClick={handleRecentClick} />
-        <BrowseSection
-          genres={genres}
-          onGenreClick={handleGenreClick}
-        />
-      </div>
-    );
-  } else if (status === "loading") {
-    content = <p className="search-message">Searching...</p>;
-  } else if (status === "error") {
-    content = (
-      <div className="search-message">
-        <p>Something went wrong: {errorMessage}</p>
+  const handleClear = () => {
+    requestId.current += 1;
+    lastSearchedQuery.current = "";
+    setQuery("");
+    setTracks([]);
+    setNextOffset(null);
+    setStatus("idle");
+    setError("");
+  };
 
-        <button
-          type="button"
-          className="search-button"
-          onClick={retrySearch}
-        >
-          Try again
-        </button>
-      </div>
-    );
-  } else if (status === "empty") {
-    content = (
-      <p className="search-message">
-        No results for "{query.trim()}"
-      </p>
-    );
-  } else if (status === "results") {
-    content = (
-      <section className="results-section">
-        <h2 className="browse-title">Songs</h2>
+  const handleSelectSearch = (value) => {
+    lastSearchedQuery.current = "";
+    setQuery(value);
+  };
 
-        <div className="track-list">
-          {tracks.map((track, index) => (
-            <TrackRow
-              key={track.id + "-" + index}
-              track={track}
-              onPlay={handlePlay}
-            />
-          ))}
-        </div>
+  const handleLoadMore = () => {
+    if (nextOffset !== null && status !== "loading") {
+      runSearch(query, nextOffset, true);
+    }
+  };
 
-        {nextOffset !== null && (
-          <button
-            type="button"
-            className="search-button"
-            onClick={loadMore}
-            disabled={loadingMore}
-          >
-            {loadingMore ? "Loading..." : "Load more"}
-          </button>
-        )}
-      </section>
-    );
-  } else {
-    content = <p className="search-message">Searching...</p>;
-  }
+  const handlePlay = (track) => {
+    playTrack(track.uri);
+  };
 
   return (
     <div className="search-page-scroll">
       <Header
         query={query}
-        onChange={setQuery}
-        onEnter={() => saveRecent(query)}
-        onClear={() => setQuery("")}
+        onQueryChange={handleQueryChange}
+        onSubmit={() => runSearch(query)}
+        onClear={handleClear}
       />
 
-      {content}
+      {status === "idle" && (
+        <>
+          <SearchTags tags={recentSearches} onTagClick={handleSelectSearch} />
+          <BrowseSection genres={genres} onGenreClick={handleSelectSearch} />
+        </>
+      )}
+
+      {status === "loading" && tracks.length === 0 && (
+        <div className="search-state">
+          <div className="search-spinner" />
+          <p>Searching Spotify...</p>
+        </div>
+      )}
+
+      {status === "error" && (
+        <div className="search-state search-error">
+          <h2>Something went wrong</h2>
+          <p>{error}</p>
+          <button type="button" onClick={() => runSearch(query)}>Try again</button>
+        </div>
+      )}
+
+      {status === "empty" && (
+        <div className="search-state">
+          <h2>No songs found</h2>
+          <p>Try another artist, song, or genre.</p>
+        </div>
+      )}
+
+      {(status === "results" || (status === "loading" && tracks.length > 0)) && (
+        <>
+          <TrackResults tracks={tracks} onPlay={handlePlay} />
+          {nextOffset !== null && (
+            <button
+              className="load-more-btn"
+              type="button"
+              onClick={handleLoadMore}
+              disabled={status === "loading"}
+            >
+              {status === "loading" ? "Loading..." : "Load more"}
+            </button>
+          )}
+        </>
+      )}
     </div>
   );
 }
+
+

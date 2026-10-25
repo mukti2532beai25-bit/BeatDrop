@@ -1,22 +1,24 @@
 import React from "react";
 
 const SearchTags = ({ tags, onTagClick }) => {
-  // Don't show the section if there are no recent searches.
-  if (!tags || tags.length === 0) {
+  if (!tags.length) {
     return null;
   }
 
   return (
     <section className="search-tags-section">
+      <div className="search-section-heading">
+        <h2>Recent searches</h2>
+      </div>
       <div className="tags-container">
-        {tags.map((tag, index) => (
+        {tags.map((tag) => (
           <button
-            key={`${tag}-${index}`}
+            key={tag}
             type="button"
             className="search-tag"
-            onClick={() => onTagClick?.(tag)}
+            onClick={() => onTagClick(tag)}
           >
-            <span className="search-icon-small">🔍</span>
+            <span className="search-icon-small">⌕</span>
             {tag}
           </button>
         ))}

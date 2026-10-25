@@ -8,21 +8,23 @@ export default function Callback() {
   const { loadUser } = useAuth();
 
   useEffect(() => {
+    // 1. read the query string: new URLSearchParams(window.location.search)
     const params = new URLSearchParams(window.location.search);
 
+    // 2. get "code", "state" and "error" from it with .get("...")
     const code = params.get("code");
     const state = params.get("state");
     const error = params.get("error");
 
-    // Handle an unsuccessful Spotify login.
+    // 3. if there is an error, or no code: navigate("/login", { replace: true }) and return
     if (error || !code) {
       navigate("/login", { replace: true });
       return;
     }
 
-    // Verify that the returned state matches the saved state.
+    // 4. read the saved state from localStorage (STATE_KEY)
+    //    if it doesn't equal the state from the URL: navigate to "/login" and return
     const savedState = localStorage.getItem(STATE_KEY);
-
     if (!state || !savedState || savedState !== state) {
       navigate("/login", { replace: true });
       return;
@@ -30,25 +32,22 @@ export default function Callback() {
 
     async function finishLogin() {
       try {
-        // Exchange the authorization code for Spotify tokens.
         await exchangeCodeForToken(code);
-
-        // Load the authenticated Spotify user's profile.
+        // ask Spotify who the user is, so the rest of the app knows we are logged in
         const ok = await loadUser();
-
         if (ok) {
           navigate("/home", { replace: true });
         } else {
           navigate("/login", { replace: true });
         }
       } catch (err) {
-        console.error("Spotify login failed:", err);
+        console.error("Login failed:", err);
         navigate("/login", { replace: true });
       }
     }
-
     finishLogin();
   }, [navigate, loadUser]);
 
   return <p>Logging you in...</p>;
 }
+

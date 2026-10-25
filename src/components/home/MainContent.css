@@ -563,3 +563,42 @@
     padding: 18px 18px 32px 18px;
   }
 }
+
+.search-container {
+  border: none;
+  text-align: left;
+}
+
+.search-container .search-input {
+  display: block;
+}
+
+.hero-buttons .play-btn:disabled {
+  cursor: not-allowed;
+  opacity: .55;
+}
+
+.home-state,
+.empty-section {
+  padding: 28px 0;
+  color: #71717a;
+  font-size: 14px;
+}
+
+.home-state {
+  text-align: center;
+}
+
+.home-error p {
+  margin-bottom: 12px;
+  color: #b42318;
+}
+
+.home-error button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 999px;
+  background: #111214;
+  color: #fff;
+  cursor: pointer;
+}

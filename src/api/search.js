@@ -1,66 +1,33 @@
-import { spotifyFetch } from "../auth/api/spotify";
+import { spotifyFetch } from "./spotify";
+import { normalizeTrack } from "./normalize";
 
-/**
- * Search Spotify for tracks.
- *
- * @param {string} query - The search text.
- * @param {number} offset - The starting position for pagination.
- * @returns {Promise<{tracks: Array, nextOffset: number|null}>}
- */
+const SEARCH_LIMIT = 10;
+
 export async function searchTracks(query, offset = 0) {
   const cleanQuery = query.trim();
 
-  if (!cleanQuery) {
-    return {
-      tracks: [],
-      nextOffset: null,
-    };
+  if (cleanQuery.length < 2) {
+    return { tracks: [], total: 0, nextOffset: null };
   }
 
   const params = new URLSearchParams({
     q: cleanQuery,
     type: "track",
-    limit: "20",
+    limit: String(SEARCH_LIMIT),
     offset: String(offset),
   });
 
-  const data = await spotifyFetch(`/search?${params.toString()}`);
+  const data = await spotifyFetch("/search?" + params.toString());
+  const rawTracks = Array.isArray(data?.tracks?.items)
+    ? data.tracks.items
+    : [];
+  const tracks = rawTracks.map(normalizeTrack);
+  const total = Number.isFinite(data?.tracks?.total)
+    ? data.tracks.total
+    : 0;
+  const nextOffset = offset + tracks.length < total
+    ? offset + tracks.length
+    : null;
 
-  const trackData = data?.tracks;
-
-  if (!trackData || !Array.isArray(trackData.items)) {
-    return {
-      tracks: [],
-      nextOffset: null,
-    };
-  }
-
-  const tracks = trackData.items
-    .filter((track) => track && track.id && track.uri)
-    .map((track) => ({
-      id: track.id,
-      uri: track.uri,
-      name: track.name || "Unknown track",
-
-      artists: (track.artists || [])
-        .map((artist) => artist.name)
-        .filter(Boolean)
-        .join(", "),
-
-      image: track.album?.images?.[0]?.url || null,
-
-      durationMs: track.duration_ms || 0,
-
-      album: track.album?.name || "Unknown album",
-
-      externalUrl: track.external_urls?.spotify || null,
-    }));
-
-  return {
-    tracks,
-    nextOffset:
-      trackData.next && tracks.length > 0
-        ? offset + trackData.items.length
-        : null,
-  };
+  return { tracks, total, nextOffset };
 }

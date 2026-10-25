@@ -1,55 +1,74 @@
-import { useState } from "react";
+import React, { useState } from "react";
+import { ArrowLeft, Headphones } from "lucide-react";
+import { Link } from "react-router-dom";
 import { login } from "../auth/auth";
 import "./loginpage.css";
 
 export default function LoginForm() {
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
 
-  async function handleLogin() {
+  const handleSpotifyLogin = async () => {
     setError("");
-    setLoading(true);
+    setIsLoading(true);
 
     try {
       await login();
     } catch (err) {
-      console.error("BeatDrop login error:", err);
-      setError(err.message || "Unable to start BeatDrop login.");
-      setLoading(false);
+      setIsLoading(false);
+      setError(err instanceof Error ? err.message : "Unable to start Spotify login.");
     }
-  }
+  };
 
   return (
-    <main className="beatdrop-login">
-      <section className="login-card">
-        <div className="brand-mark">♫</div>
+    <main className="login-page-container">
+      <Link to="/" className="login-back-link">
+        <ArrowLeft size={16} />
+        Back to BeatDrop
+      </Link>
 
-        <h1 className="brand-title">BeatDrop</h1>
+      <section className="login-card" aria-label="BeatDrop login">
+        <div className="login-logo">
+          <span className="login-logo-icon">
+            <Headphones size={18} />
+          </span>
+          <span>BeatDrop</span>
+        </div>
 
-        <h2>Log in to continue</h2>
-
-        <p className="login-subtitle">
-          Your music, your vibe.
+        <p className="login-label">WELCOME BACK</p>
+        <h1>Log in to BeatDrop</h1>
+        <p className="login-description">
+          Connect your Spotify account to start listening.
         </p>
 
         <button
-          className="login-button"
-          onClick={handleLogin}
-          disabled={loading}
+          className="spotify-login-btn"
           type="button"
+          onClick={handleSpotifyLogin}
+          disabled={isLoading}
         >
-          {loading ? "Connecting..." : "Continue with BeatDrop"}
+          <span className="spotify-icon">●</span>
+          {isLoading ? "Connecting..." : "Continue with Spotify"}
         </button>
 
-        {error && (
-          <p className="login-error" role="alert">
-            {error}
-          </p>
-        )}
+        {error && <p className="error-text" role="alert">{error}</p>}
 
-        <p className="login-footer">
-          Made for music lovers.
+        <p className="login-note">
+          You will be redirected to Spotify for secure sign-in.
         </p>
+
+        <div className="login-divider">
+          <span>New to BeatDrop?</span>
+        </div>
+
+        <button
+          className="secondary-login-btn"
+          type="button"
+          onClick={handleSpotifyLogin}
+          disabled={isLoading}
+        >
+          Create an account with Spotify
+        </button>
       </section>
     </main>
   );
