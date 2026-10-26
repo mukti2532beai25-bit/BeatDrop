@@ -1,6 +1,6 @@
-import { useCallback, useEffect, useState } from "react";
+import { useState } from "react";
 import { usePlayer } from "../player/PlayerContext";
-import {getMyPlaylists,getRecentlyPlayed,getSavedTracks,getTopTracks,} from "../api/library";
+import { getMyPlaylists, getSavedTracks, getRecentlyPlayed, getTopTracks } from "../api/library";
 import LibraryHeader from "../components/library/LibraryHeader";
 import QuickAccess from "../components/library/QuickAccess";
 import RecentlyPlayed from "../components/library/RecentlyPlayed";
@@ -14,10 +14,11 @@ export default function Library() {
   const [savedTracks, setSavedTracks] = useState([]);
   const [recentTracks, setRecentTracks] = useState([]);
   const [topTracks, setTopTracks] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [hasFetched, setHasFetched] = useState(false);
 
-  const loadLibrary = useCallback(async () => {
+  const loadLibrary = async () => {
     setLoading(true);
     setError("");
 
@@ -37,12 +38,13 @@ export default function Library() {
       setError(err instanceof Error ? err.message : "Could not load your library.");
     } finally {
       setLoading(false);
+      setHasFetched(true);
     }
-  }, []);
+  };
 
-  useEffect(() => {
+  if (!hasFetched && !loading && !error) {
     loadLibrary();
-  }, [loadLibrary]);
+  }
 
   return (
     <div className="library-page-scroll">
