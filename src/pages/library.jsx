@@ -6,7 +6,7 @@ import {
   getSavedTracks,
   getTopTracks,
 } from "../api/library";
-import LibraryHeader from "../components/library/LibraryHeader";
+import LibraryHeader from "../components/library/libraryHeader";
 import QuickAccess from "../components/library/QuickAccess";
 import RecentlyPlayed from "../components/library/RecentlyPlayed";
 import ListeningStats from "../components/library/ListeningStats";
