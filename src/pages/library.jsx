@@ -53,7 +53,7 @@ export default function Library() {
 
         {loading && (
           <div className="library-state">
-            <p>Loading your Spotify library...</p>
+            <p>Loading your BeatDrop library...</p>
           </div>
         )}
 

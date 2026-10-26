@@ -8,7 +8,7 @@ export default function LoginForm() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const handleSpotifyLogin = async () => {
+  const handleBeatDropLogin = async () => {
     setError("");
     setIsLoading(true);
 
@@ -16,7 +16,7 @@ export default function LoginForm() {
       await login();
     } catch (err) {
       setIsLoading(false);
-      setError(err instanceof Error ? err.message : "Unable to start Spotify login.");
+      setError(err instanceof Error ? err.message : "Unable to start BeatDrop login.");
     }
   };
 
@@ -38,23 +38,23 @@ export default function LoginForm() {
         <p className="login-label">WELCOME BACK</p>
         <h1>Log in to BeatDrop</h1>
         <p className="login-description">
-          Connect your Spotify account to start listening.
+          Connect your BeatDrop account to start listening.
         </p>
 
         <button
-          className="spotify-login-btn"
+          className="beatdrop-login-btn"
           type="button"
-          onClick={handleSpotifyLogin}
+          onClick={handleBeatDropLogin}
           disabled={isLoading}
         >
-          <span className="spotify-icon">●</span>
-          {isLoading ? "Connecting..." : "Continue with Spotify"}
+          <span className="beatdrop-icon">●</span>
+          {isLoading ? "Connecting..." : "Continue with BeatDrop"}
         </button>
 
         {error && <p className="error-text" role="alert">{error}</p>}
 
         <p className="login-note">
-          You will be redirected to Spotify for secure sign-in.
+          You will be redirected to BeatDrop for secure sign-in.
         </p>
 
         <div className="login-divider">
@@ -64,10 +64,10 @@ export default function LoginForm() {
         <button
           className="secondary-login-btn"
           type="button"
-          onClick={handleSpotifyLogin}
+          onClick={handleBeatDropLogin}
           disabled={isLoading}
         >
-          Create an account with Spotify
+          Create an account with BeatDrop
         </button>
       </section>
     </main>
