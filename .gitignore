@@ -1,4 +1,16 @@
-<<<<<<< HEAD
+# Dependencies
+node_modules/
+
+# Build files
+build/
+dist/
+dist-ssr/
+coverage/
+
+# Environment files
+.env*
+!.env.example
+
 # Logs
 logs/
 *.log
@@ -27,13 +39,3 @@ lerna-debug.log*
 *.njsproj
 *.sln
 *.sw?
-=======
-node_modules/
-build/
-dist/
-coverage/
-.DS_Store
-*.log
-.env*
-!.env.example
->>>>>>> 7ba739941c3c91e6d3e6dd385effa0a8e478e6ac

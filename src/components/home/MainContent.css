@@ -57,11 +57,10 @@
   gap: 10px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
   cursor: pointer;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  transition:box-shadow 0.2s ease;
 }
 
 .search-container:hover {
-  border-color: #CBD5E1;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
@@ -77,10 +76,6 @@
   color: #121212;
   background: transparent;
   cursor: pointer;
-}
-
-.search-input::placeholder {
-  color: #71717A;
 }
 
 .profile-actions {
@@ -369,18 +364,6 @@
   margin: 4px 0 0 0;
 }
 
-.see-all-link {
-  font-size: 13px;
-  font-weight: 700;
-  color: #52525B;
-  text-decoration: none;
-  transition: color 0.2s ease;
-}
-
-.see-all-link:hover {
-  color: #111214;
-  text-decoration: underline;
-}
 
 .card-grid {
   display: grid;
@@ -409,7 +392,6 @@
 .card-img-wrapper {
   position: relative;
   width: 100%;
-  aspect-ratio: 1 / 1;
   border-radius: 10px;
   overflow: hidden;
   margin-bottom: 12px;
@@ -428,16 +410,7 @@
   transform: scale(1.04);
 }
 
-.card-badge {
-  position: absolute;
-  top: 8px;
-  left: 8px;
-  background: rgba(18, 18, 20, 0.7);
-  backdrop-filter: blur(4px);
-  padding: 4px 7px;
-  border-radius: 6px;
-  font-size: 12px;
-}
+
 
 .card-play-overlay {
   position: absolute;
@@ -464,7 +437,7 @@
 }
 
 .card-play-overlay:hover {
-  transform: scale(1.08) !important;
+  transform: scale(1.08);
   background-color: #E2FF54;
 }
 
@@ -483,67 +456,8 @@
   color: #71717A;
   margin: 0;
   line-height: 1.4;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
+   
   overflow: hidden;
-}
-
-.artist-card {
-  text-align: center;
-  align-items: center;
-}
-
-.artist-avatar-wrapper {
-  position: relative;
-  width: 130px;
-  height: 130px;
-  border-radius: 50%;
-  overflow: hidden;
-  margin-bottom: 14px;
-  background-color: #E5E7EB;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
-}
-
-.artist-avatar-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-  transition: transform 0.3s ease;
-}
-
-.artist-card:hover .artist-avatar-img {
-  transform: scale(1.05);
-}
-
-.artist-card:hover .card-play-overlay {
-  right: 12px;
-  bottom: 12px;
-}
-
-.artist-genre {
-  font-size: 12px;
-  color: #4B5563;
-  margin-bottom: 2px;
-}
-
-.artist-followers {
-  font-size: 11px;
-  font-weight: 600;
-  color: #9CA3AF;
-}
-
-.live-pill {
-  position: absolute;
-  top: 8px;
-  left: 8px;
-  background: #111214;
-  color: #FFFFFF;
-  padding: 3px 8px;
-  border-radius: 4px;
-  font-size: 10px;
-  font-weight: 800;
-  letter-spacing: 0.5px;
 }
 
 @media (max-width: 900px) {

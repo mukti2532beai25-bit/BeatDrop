@@ -2,11 +2,7 @@ import { spotifyFetch } from "./spotify";
 import { normalizeTrack } from "./normalize";
 
 export async function getTopTracks(timeRange = "medium_term") {
-  const params = new URLSearchParams({
-    time_range: timeRange,
-    limit: "10",
-  });
-  const data = await spotifyFetch("/me/top/tracks?" + params.toString());
+  const data = await spotifyFetch(`/me/top/tracks?time_range=${timeRange}&limit=10`);
   const items = Array.isArray(data?.items) ? data.items : [];
   return items.map(normalizeTrack);
 }
