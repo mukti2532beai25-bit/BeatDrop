@@ -6,7 +6,7 @@ import {
   getSavedTracks,
   getTopTracks,
 } from "../api/library";
-import LibraryHeader from "../components/library/LibraryHeader";
+import LibraryHeader from "../components/library/libraryHeader";
 import QuickAccess from "../components/library/QuickAccess";
 import RecentlyPlayed from "../components/library/RecentlyPlayed";
 import ListeningStats from "../components/library/ListeningStats";
@@ -56,7 +56,7 @@ export default function Library() {
 
         {loading && (
           <div className="library-state">
-            <p>Loading your Spotify library...</p>
+            <p>Loading your BeatDrop library...</p>
           </div>
         )}
 
